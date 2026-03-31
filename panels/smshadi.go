@@ -242,18 +242,21 @@ func (h *SMSHadi) GetNumbers() ([]models.NumberResponse, error) {
 		return nil, fmt.Errorf("نمبرز کا JSON پارس نہیں ہوا: %v", err)
 	}
 
-	var cleanNumbers []models.NumberResponse
+		var cleanNumbers []models.NumberResponse
 	for _, row := range result.AaData {
+		// چیک کریں کہ کم از کم 4 انڈیکس موجود ہوں (0, 1, 2, 3)
 		if len(row) > 3 {
-			rangeStr, ok := row[1].(string)
-			if !ok {
+			rangeStr, ok1 := row[1].(string)
+			numberStr, ok2 := row[3].(string) // انڈیکس 3 پر پورا نمبر آ رہا ہے
+			
+			// اگر ڈیٹا صحیح سے سٹرنگ میں کنورٹ نہیں ہوا تو اگنور کریں
+			if !ok1 || !ok2 {
 				continue
 			}
 			
-			// اس پینل میں Range میں ہی ملک کا نام آ رہا ہے (جیسے "Pakistan G 2001")
 			cleanNumbers = append(cleanNumbers, models.NumberResponse{
-				Range:   rangeStr,
-				Country: rangeStr, 
+				Range:  rangeStr,
+				Number: numberStr, 
 			})
 		}
 	}
