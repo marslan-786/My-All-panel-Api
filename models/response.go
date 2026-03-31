@@ -8,13 +8,13 @@ type MessageResponse struct {
 	FullMessage string `json:"Full_message"`
 }
 
-// نمبرز کے لیے کلین اسٹرکچر
+// نمبرز کے لیے کلین اسٹرکچر (یہاں تبدیلی کی گئی ہے)
 type NumberResponse struct {
-	Range   string `json:"Range"`
-	Country string `json:"Country"`
+	Range  string `json:"Range"`
+	Number string `json:"Number"` // Country کی جگہ Number کر دیا
 }
 
-// اگر پیچھے سے کوئی ایرر آئے تو ہمارا سسٹم کریش نہیں ہوگا، بلکہ یہ رسپانس دے گا
+// ایرر ہینڈلنگ اسٹرکچر
 type ErrorResponse struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
